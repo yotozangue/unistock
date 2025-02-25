@@ -1,0 +1,33 @@
+networks:
+  my-network:
+    driver: bridge
+
+services:
+  tomcat:
+    build: .
+    ports:
+      - "${TOMCAT_PORT}:${TOMCAT_PORT}"
+    environment:
+      - JAVA_OPTS=${JAVA_OPTS}
+      - DB_URL=${DB_URL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+    volumes:
+      - ./target:/usr/local/tomcat/webapps
+    networks:
+      - my-network
+
+  db:
+    image: postgres:13
+    networks:
+      - my-network
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -1,0 +1,15 @@
+footer {
+    min-height: 6vh;
+    background-color: #050A30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+footer p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 14pt;
+    font-weight: 600;
+}
